@@ -15,7 +15,7 @@ type WithEventSafeExecutor struct {
 	storage storage.Storage
 }
 
-func NewWithEventExecutor(storage storage.Storage) *WithEventSafeExecutor {
+func NewWithEventSafeExecutor(storage storage.Storage) *WithEventSafeExecutor {
 	return &WithEventSafeExecutor{
 		storage: storage,
 	}
