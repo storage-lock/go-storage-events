@@ -1,4 +1,4 @@
-package storage
+package storage_events
 
 // 用于统计Storage上的方法调用行为
 const (
