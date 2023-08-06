@@ -1,25 +1,3 @@
-# Storage Event 
-
-# 一、这是什么
-
-把Storage和events结合，为Storage增加可观测性和安全执行功能。
-
-# 二、安装依赖
-
-
-```bash
-go get -u github.com/storage-lock/go-storage-events
-```
-
-# 三、组件介绍
-
-## WithEventSafeExecutor
-
-为Storage增加可观测性和安全执行功能
-
-# 四、使用示例
-
-```go
 package main
 
 import (
@@ -102,5 +80,3 @@ func main() {
 	// main.main()
 	//     D:/workspace/go-storage-events/examples/main.go:72 +0x1c8
 }
-```
-
