@@ -75,8 +75,7 @@ func main() {
 	// Output:
 	// {"id":"storage-lock-event-eb8bffdcbf69414bb34719bfbda0147c","root_id":"storage-lock-event-eb8bffdcbf69414bb34719bfbda0147c","parent_id":"","lock_id":"foo","owner_id":"","storage_name":"","start_time":"2023-08-07T01:45:13.2932725+08:00","end_time":"2023-08-07T01:45:13.2932725+08:00","event_type":0,"actions":[{"start_time":"2023-08-07T01:45:13.293272 5+08:00","end_time":"2023-08-07T01:45:13.2932725+08:00","name":"Storage.GetTime","err":{},"payload_map":{"time":"0001-01-01T00:00:00Z"}}],"watch_dog_id":"","lock_information":null,"err":null}
 	//
-	// panic: implement me
-	// goroutine 1 [running]:
+	// panic: implement me goroutine 1 [running]:
 	// main.main()
 	//     D:/workspace/go-storage-events/examples/main.go:72 +0x1c8
 }
