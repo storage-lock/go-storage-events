@@ -30,7 +30,7 @@ func (x *FooStorage) UpdateWithVersion(ctx context.Context, lockId string, excep
 	panic("implement me")
 }
 
-func (x *FooStorage) InsertWithVersion(ctx context.Context, lockId string, version storage.Version, lockInformation *storage.LockInformation) error {
+func (x *FooStorage) CreateWithVersion(ctx context.Context, lockId string, version storage.Version, lockInformation *storage.LockInformation) error {
 	//TODO implement me
 	panic("implement me")
 }
