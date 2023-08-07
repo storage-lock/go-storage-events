@@ -77,7 +77,7 @@ func (x *WithEventSafeExecutor) UpdateWithVersion(ctx context.Context, e *events
 	return
 }
 
-func (x *WithEventSafeExecutor) InsertWithVersion(ctx context.Context, e *events.Event, lockId string, version storage.Version, lockInformation *storage.LockInformation) (err error) {
+func (x *WithEventSafeExecutor) CreateWithVersion(ctx context.Context, e *events.Event, lockId string, version storage.Version, lockInformation *storage.LockInformation) (err error) {
 
 	insertAction := events.NewAction(ActionStorageInsertWithVersion).
 		AddPayload("lockId", lockId).
@@ -91,7 +91,7 @@ func (x *WithEventSafeExecutor) InsertWithVersion(ctx context.Context, e *events
 		}
 	}()
 
-	err = x.storage.InsertWithVersion(ctx, lockId, version, lockInformation)
+	err = x.storage.CreateWithVersion(ctx, lockId, version, lockInformation)
 	e.AddAction(insertAction.End().SetErr(err)).Publish(ctx)
 
 	return

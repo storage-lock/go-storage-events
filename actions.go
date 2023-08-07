@@ -5,7 +5,7 @@ const (
 	ActionStorageGetName           = "Storage.GetName"
 	ActionStorageInit              = "Storage.Init"
 	ActionStorageUpdateWithVersion = "Storage.UpdateWithVersion"
-	ActionStorageInsertWithVersion = "Storage.InsertWithVersion"
+	ActionStorageInsertWithVersion = "Storage.CreateWithVersion"
 	ActionStorageDeleteWithVersion = "Storage.DeleteWithVersion"
 	ActionStorageGetTime           = "Storage.GetTime"
 	ActionStorageGet               = "Storage.Get"

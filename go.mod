@@ -5,7 +5,7 @@ go 1.18
 require (
 	github.com/golang-infrastructure/go-iterator v0.0.0-20230524171120-56988a9b127c
 	github.com/storage-lock/go-events v0.0.1
-	github.com/storage-lock/go-storage v0.0.1
+	github.com/storage-lock/go-storage v0.0.2
 )
 
 require (
