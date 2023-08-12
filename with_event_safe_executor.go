@@ -10,11 +10,12 @@ import (
 	"time"
 )
 
-// WithEventSafeExecutor 带事件观测和recover的执行器
+// WithEventSafeExecutor 带事件观测和recover的Storage执行器
 type WithEventSafeExecutor struct {
 	storage storage.Storage
 }
 
+// NewWithEventSafeExecutor 从给定的Storage创建一个执行器，后面就拿着这个执行器操作而不直接操作Storage了
 func NewWithEventSafeExecutor(storage storage.Storage) *WithEventSafeExecutor {
 	return &WithEventSafeExecutor{
 		storage: storage,
@@ -29,14 +30,14 @@ func (x *WithEventSafeExecutor) GetName(e *events.Event) (name string) {
 	defer func() {
 		if r := recover(); r != nil {
 			err := x.convertRecoveryToError(r)
-			e.AddAction(getNameAction.End().SetErr(err).AddPayload("name", name)).Publish(ctx)
+			e.AddAction(getNameAction.End().SetErr(err).AddPayload(PayloadName, name)).Publish(ctx)
 		}
 	}()
 
 	name = x.storage.GetName()
-	e.AddAction(getNameAction.End().AddPayload("name", name)).Publish(ctx)
+	e.AddAction(getNameAction.End().AddPayload(PayloadName, name)).Publish(ctx)
 
-	return
+	return name
 }
 
 func (x *WithEventSafeExecutor) Init(ctx context.Context, e *events.Event) (err error) {
@@ -58,11 +59,12 @@ func (x *WithEventSafeExecutor) Init(ctx context.Context, e *events.Event) (err 
 
 func (x *WithEventSafeExecutor) UpdateWithVersion(ctx context.Context, e *events.Event, lockId string, exceptedVersion, newVersion storage.Version, lockInformation *storage.LockInformation) (err error) {
 
+	// 把相关的上下文能携带的都携带者
 	updateAction := events.NewAction(ActionStorageUpdateWithVersion).
-		AddPayload("lockId", lockId).
-		AddPayload("exceptedVersion", exceptedVersion).
-		AddPayload("newVersion", newVersion).
-		AddPayload("lockInformation", lockInformation)
+		AddPayload(PayloadLockId, lockId).
+		AddPayload(PayloadExceptedVersion, exceptedVersion).
+		AddPayload(PayloadNewVersion, newVersion).
+		AddPayload(PayloadLockInformation, lockInformation)
 
 	defer func() {
 		if r := recover(); r != nil {
@@ -80,9 +82,9 @@ func (x *WithEventSafeExecutor) UpdateWithVersion(ctx context.Context, e *events
 func (x *WithEventSafeExecutor) CreateWithVersion(ctx context.Context, e *events.Event, lockId string, version storage.Version, lockInformation *storage.LockInformation) (err error) {
 
 	insertAction := events.NewAction(ActionStorageInsertWithVersion).
-		AddPayload("lockId", lockId).
-		AddPayload("version", version).
-		AddPayload("lockInformation", lockInformation)
+		AddPayload(PayloadLockId, lockId).
+		AddPayload(PayloadVersion, version).
+		AddPayload(PayloadLockInformation, lockInformation)
 
 	defer func() {
 		if r := recover(); r != nil {
@@ -99,7 +101,10 @@ func (x *WithEventSafeExecutor) CreateWithVersion(ctx context.Context, e *events
 
 func (x *WithEventSafeExecutor) DeleteWithVersion(ctx context.Context, e *events.Event, lockId string, exceptedVersion storage.Version, lockInformation *storage.LockInformation) (err error) {
 
-	deleteAction := events.NewAction(ActionStorageDeleteWithVersion).AddPayload("lockId", lockId).AddPayload("exceptedVersion", exceptedVersion).AddPayload("lockInformation", lockInformation)
+	deleteAction := events.NewAction(ActionStorageDeleteWithVersion).
+		AddPayload(PayloadLockId, lockId).
+		AddPayload(PayloadExceptedVersion, exceptedVersion).
+		AddPayload(PayloadLockInformation, lockInformation)
 
 	defer func() {
 		if r := recover(); r != nil {
@@ -115,18 +120,18 @@ func (x *WithEventSafeExecutor) DeleteWithVersion(ctx context.Context, e *events
 
 func (x *WithEventSafeExecutor) Get(ctx context.Context, e *events.Event, lockId string) (lockInformationJsonString string, err error) {
 
-	getAction := events.NewAction(ActionStorageGet).AddPayload("lockId", lockId)
+	getAction := events.NewAction(ActionStorageGet).AddPayload(PayloadLockId, lockId)
 
 	defer func() {
 		if r := recover(); r != nil {
 			err = x.convertRecoveryToError(r)
 			// 虽然lockInformationJsonString大概率是空字符串，但是为了防止开发者二笔，这里还是将其也收集一下以免丢失数据
-			e.AddAction(getAction.End().SetErr(err).AddPayload("lockInformationJsonString", lockInformationJsonString)).Publish(ctx)
+			e.AddAction(getAction.End().SetErr(err).AddPayload(PayloadLockInformationJsonString, lockInformationJsonString)).Publish(ctx)
 		}
 	}()
 
 	lockInformationJsonString, err = x.storage.Get(ctx, lockId)
-	e.AddAction(getAction.End().SetErr(err).AddPayload("lockInformationJsonString", lockInformationJsonString)).Publish(ctx)
+	e.AddAction(getAction.End().SetErr(err).AddPayload(PayloadLockInformationJsonString, lockInformationJsonString)).Publish(ctx)
 
 	return
 }
@@ -138,12 +143,12 @@ func (x *WithEventSafeExecutor) GetTime(ctx context.Context, e *events.Event) (t
 	defer func() {
 		if r := recover(); r != nil {
 			err = x.convertRecoveryToError(r)
-			e.AddAction(getTimeAction.End().SetErr(err).AddPayload("time", time)).Publish(ctx)
+			e.AddAction(getTimeAction.End().SetErr(err).AddPayload(PayloadTime, time)).Publish(ctx)
 		}
 	}()
 
 	time, err = x.storage.GetTime(ctx)
-	e.AddAction(getTimeAction.End().SetErr(err).AddPayload("time", time)).Publish(ctx)
+	e.AddAction(getTimeAction.End().SetErr(err).AddPayload(PayloadTime, time)).Publish(ctx)
 
 	return
 }
@@ -172,12 +177,12 @@ func (x *WithEventSafeExecutor) List(ctx context.Context, e *events.Event) (iter
 	defer func() {
 		if r := recover(); r != nil {
 			err = x.convertRecoveryToError(r)
-			e.AddAction(listAction.End().SetErr(err).AddPayload("iterator", iterator)).Publish(ctx)
+			e.AddAction(listAction.End().SetErr(err).AddPayload(PayloadIterator, iterator)).Publish(ctx)
 		}
 	}()
 
 	iterator, err = x.storage.List(ctx)
-	e.AddAction(listAction.End().SetErr(err).AddPayload("iterator", iterator)).Publish(ctx)
+	e.AddAction(listAction.End().SetErr(err).AddPayload(PayloadIterator, iterator)).Publish(ctx)
 
 	return
 }
@@ -197,5 +202,5 @@ func (x *WithEventSafeExecutor) convertRecoveryToError(r any) error {
 	}
 
 	// TODO 优化转换
-	return errors.New(fmt.Sprintf("%v", r))
+	return errors.New(fmt.Sprintf("%#v", r))
 }
