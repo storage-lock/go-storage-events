@@ -11,14 +11,17 @@ const (
 	ActionStorageUpdateWithVersion        = "Storage.UpdateWithVersion"
 	ActionStorageUpdateWithVersionSuccess = "Storage.UpdateWithVersion.Success"
 	ActionStorageUpdateWithVersionError   = "Storage.UpdateWithVersion.Error"
+	ActionStorageUpdateWithVersionMiss   = "Storage.UpdateWithVersion.Miss"
 
 	ActionStorageInsertWithVersion        = "Storage.CreateWithVersion"
 	ActionStorageInsertWithVersionSuccess = "Storage.CreateWithVersion.Success"
 	ActionStorageInsertWithVersionError   = "Storage.CreateWithVersion.Error"
+	ActionStorageInsertWithVersionMiss   = "Storage.CreateWithVersion.Miss"
 
 	ActionStorageDeleteWithVersion        = "Storage.DeleteWithVersion"
 	ActionStorageDeleteWithVersionSuccess = "Storage.DeleteWithVersion.Success"
 	ActionStorageDeleteWithVersionError   = "Storage.DeleteWithVersion.Error"
+	ActionStorageDeleteWithVersionMiss   = "Storage.DeleteWithVersion.Miss"
 
 	ActionStorageGetTime        = "Storage.GetTime"
 	ActionStorageGetTimeSuccess = "Storage.GetTime.Success"
