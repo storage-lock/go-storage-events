@@ -81,7 +81,7 @@ func (x *WithEventSafeExecutor) UpdateWithVersion(ctx context.Context, e *events
 
 func (x *WithEventSafeExecutor) CreateWithVersion(ctx context.Context, e *events.Event, lockId string, version storage.Version, lockInformation *storage.LockInformation) (err error) {
 
-	insertAction := events.NewAction(ActionStorageInsertWithVersion).
+	insertAction := events.NewAction(ActionStorageCreateWithVersion).
 		AddPayload(PayloadLockId, lockId).
 		AddPayload(PayloadVersion, version).
 		AddPayload(PayloadLockInformation, lockInformation)
