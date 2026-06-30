@@ -14,3 +14,5 @@ require (
 	github.com/google/uuid v1.3.0 // indirect
 	github.com/storage-lock/go-utils v0.0.2 // indirect
 )
+
+replace github.com/storage-lock/go-storage => ../go-storage

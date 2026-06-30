@@ -10,8 +10,6 @@ github.com/google/uuid v1.3.0/go.mod h1:TIyPZe4MgqvfeYDBFedMoGGpEw/LqOeaOT+nhxU+
 github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZbAQM=
 github.com/storage-lock/go-events v0.0.3 h1:QuNbaREe5m1WYC0meKs7SRJ5lY11a18jCJJS/mGD3SA=
 github.com/storage-lock/go-events v0.0.3/go.mod h1:DKwPgfuq8T8CyPLipH+0XHsNt8hEN4g9krUGfosU2oY=
-github.com/storage-lock/go-storage v0.0.2 h1:N5glUlrr1bbJ8ixYsPmOv+TuhIOObX/65+hrNMPWFDc=
-github.com/storage-lock/go-storage v0.0.2/go.mod h1:4vuU2nLdbmzj2UIBKpwB5lj8RI+GnPDZ4YHZ7QAcFHE=
 github.com/storage-lock/go-utils v0.0.2 h1:pdacTOlD+AHqwWVmDqZLcjKF+7p8TjsmlvZ9bmmkIfE=
 github.com/storage-lock/go-utils v0.0.2/go.mod h1:tx8ATHL7yOC0Nyjpba7hJNk0+QNt2XEnMr8NcGm9Gak=
 github.com/stretchr/testify v1.8.4 h1:CcVxjf3Q8PM0mHUKJCdn+eZZtm5yQwehR5yeSVQQcUk=
