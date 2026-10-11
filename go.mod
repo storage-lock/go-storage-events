@@ -5,7 +5,7 @@ go 1.23
 require (
 	github.com/golang-infrastructure/go-iterator v0.0.0-20230524171120-56988a9b127c
 	github.com/storage-lock/go-events v0.0.3
-	github.com/storage-lock/go-storage v0.0.2
+	github.com/storage-lock/go-storage v0.0.3
 )
 
 require (
@@ -14,5 +14,3 @@ require (
 	github.com/google/uuid v1.3.0 // indirect
 	github.com/storage-lock/go-utils v0.0.2 // indirect
 )
-
-replace github.com/storage-lock/go-storage => ../go-storage
