@@ -22,14 +22,14 @@ func NewWithEventSafeExecutor(storage storage.Storage) *WithEventSafeExecutor {
 	}
 }
 
-func (x *WithEventSafeExecutor) GetName(e *events.Event) (name string) {
+func (x *WithEventSafeExecutor) GetName(e *events.Event) (name string, err error) {
 
 	ctx := context.Background()
 	getNameAction := events.NewAction(ActionStorageGetName)
 
 	defer func() {
 		if r := recover(); r != nil {
-			err := x.convertRecoveryToError(r)
+			err = x.convertRecoveryToError(r)
 			e.AddAction(getNameAction.End().SetErr(err).AddPayload(PayloadName, name)).Publish(ctx)
 		}
 	}()
@@ -37,7 +37,7 @@ func (x *WithEventSafeExecutor) GetName(e *events.Event) (name string) {
 	name = x.storage.GetName()
 	e.AddAction(getNameAction.End().AddPayload(PayloadName, name)).Publish(ctx)
 
-	return name
+	return name, nil
 }
 
 func (x *WithEventSafeExecutor) Init(ctx context.Context, e *events.Event) (err error) {
@@ -46,7 +46,7 @@ func (x *WithEventSafeExecutor) Init(ctx context.Context, e *events.Event) (err 
 
 	defer func() {
 		if r := recover(); r != nil {
-			err := x.convertRecoveryToError(r)
+			err = x.convertRecoveryToError(r)
 			e.AddAction(initAction.End().SetErr(err)).Publish(ctx)
 		}
 	}()
